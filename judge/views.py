@@ -1,5 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
 from judge.models import Problem, Submission, Coder, TestCase
 from judge.forms import UserForm
 
@@ -29,4 +31,25 @@ def register_user(request):
     else:
         user_form = UserForm()
     return render(request, "judge/register.html", {"user_form": user_form, "registered": registered})
+
+
+def loguserin(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(username=username, password=password)
+        if user:
+            login(request, user)
+            return HttpResponseRedirect('/judge/')
+        else:
+            print "Invalid login details: {}, {}".format(username, password)
+            return HttpResponse("Invalid Login Details")
+    else:
+        return render(request, "judge/login.html", {})
+
+def loguserout(request):
+    if request.user.is_authenticated:
+        logout(request)
+    return HttpResponseRedirect("/judge/")
 
