@@ -5,7 +5,7 @@ from judge.forms import UserForm
 
 
 def index(request):
-    return HttpResponse("Hello, world!")
+    return render(request, "judge/index.html")
 
 
 def register_user(request):

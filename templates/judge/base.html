@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title> POJ - {% block title %} {% endblock %} </title>
+    </head>
+
+    <body>
+        <div>
+            {% block body_block %} {% endblock %}
+        </div>
+
+        <hr />
+
+        <div>
+            <ul>
+                {% if user.is_authenticated %}
+                    <li> <a href = "/judge/logout/">Log Out</a> </li>
+                    <li> <a href = "/judge/add-problem/">Add a Problem</a> </li>
+                {% else %}
+                    <li> <a href = "/judge/register/">Register!</a> </li>
+                    <li> <a href = "/judge/login/">Login</a> </li>
+                {% endif %}
+                    <li> <a href = "/judge/about/">About</a> </li>
+            </ul>
+        </div>
+    </body>
+</html>

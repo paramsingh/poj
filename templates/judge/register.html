@@ -1,25 +1,24 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title> Register at POJ! </title>
-    </head>
+{% extends 'judge/base.html' %}
 
-    <body>
-        <h1> Register with POJ! </h1>
+{% block title %} Register {% endblock %}
+
+{% block body_block %}
+
+    <h1> Register with POJ! </h1>
 
         {% if registered %}
-        Thank you for registering!
+            Thank you for registering!
         {% else %}
-        <strong> Register here </strong>
+            <strong> Register here </strong>
 
-        <form id="coder_form" method="post" action="/judge/register/"
-            enctype = "multipart/form-data">
-            {% csrf_token %}
+            <form id="coder_form" method="post" action="/judge/register/"
+                enctype = "multipart/form-data">
+                {% csrf_token %}
 
-            {{ user_form.as_p }}
+                {{ user_form.as_p }}
 
-            <input type="submit" name="submit" value="register with poj" />
-        </form>
+                <input type="submit" name="submit" value="register with poj" />
+            </form>
         {% endif %}
-    </body>
-</html>
+{% endblock %}
+
