@@ -23,7 +23,10 @@ def register_user(request):
             coder = Coder(user = u)
             coder.link = "/judge/users/%s" % (u.username)
             coder.score = 0
-            coder.rank = len(Coder.objects.all()) + 1
+            # calculation of rank in the beginning
+            coder.rank = -1
+            for k in Coder.objects.all():
+                coder.rank = max(coder.rank, k.rank)
             coder.save()
             registered = True
         else:
