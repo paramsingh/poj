@@ -1,0 +1,20 @@
+TODO:
+* sandbox for security, best option seems to be docker.
+* celery worker if I want to make it at least a little efficient
+* write code allowing the user to add a question
+* work on the UI
+
+Security:
+    * Easiest is chroot, I think.
+    * Docker is pretty easy also and better because chroot requires that
+    the server runs as root which is not realistic.
+    * There are other ways, SELinux and Apparmor but they seem difficult and time
+    taking.
+
+Tasks:
+    * Need to automate the task mechanism.
+    * Maybe have to make some changes in the Database structure as well.
+
+UI:
+    * Fix it.
+    * Maybe use semantic, so that it looks cool.
