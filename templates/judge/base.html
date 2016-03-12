@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 
+{% load staticfiles %}
+
 <html>
     <head>
         <title> POJ - {% block title %} {% endblock %} </title>
+        <link rel="stylesheet" type="text/css" href="{% static "semantic/semantic.css" %}"/>
+        <script src = "{% static "semantic/semantic.js" %}"> </script>
     </head>
 
     <body>
