@@ -1,5 +1,5 @@
 from django import forms
-from judge.models import Coder
+from judge.models import Coder, Problem, TestCase
 from django.contrib.auth.models import User
 
 class UserForm(forms.ModelForm):

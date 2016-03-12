@@ -51,6 +51,7 @@ def loguserin(request):
     else:
         return render(request, "judge/login.html", {})
 
+
 def loguserout(request):
     if request.user.is_authenticated:
         logout(request)

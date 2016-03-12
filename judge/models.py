@@ -18,7 +18,7 @@ class Problem(models.Model):
     # Problem name (example: life, the universe and everything)
     name = models.CharField(max_length=255)
     # Problem code (example: TEST)
-    code = models.CharField(max_length=128, unique = True)
+    code = models.CharField(max_length=20, unique = True)
     # Problem link (example: poj.com/problems/TEST)
     link = models.URLField()
     # Problem statement
@@ -35,6 +35,9 @@ class Problem(models.Model):
     source = models.CharField(max_length=255)
     num_tests = models.IntegerField(default = 0)
 
+    def __unicode__(self):
+        return self.code
+
 
 # Model for Test Cases
 class TestCase(models.Model):
@@ -50,6 +53,9 @@ class Coder(models.Model):
     score = models.DecimalField(default = 0, decimal_places = 3, max_digits = 100)
     rank = models.IntegerField(default = -1)
     problems_tried = models.ManyToManyField(Problem, related_name = "problems_tried")
+
+    def __unicode__(self):
+        return self.user.username
 
 
 # Model for problem submissions
