@@ -13,6 +13,18 @@ def out_upload_path(instance, filename):
     return "/".join(["testcases", str(instance.problem.id)]) + ".out"
 
 
+# Model for users
+class Coder(models.Model):
+    user = models.OneToOneField(User)
+    link = models.URLField()
+    score = models.DecimalField(default = 0, decimal_places = 3, max_digits = 100)
+    rank = models.IntegerField(default = -1)
+    problems_tried = models.ManyToManyField('Problem', related_name = "problems_tried")
+
+    def __unicode__(self):
+        return self.user.username
+
+
 # Model for the Problems to be uploaded on the judge
 class Problem(models.Model):
     # Problem name (example: life, the universe and everything)
@@ -35,6 +47,8 @@ class Problem(models.Model):
     source = models.CharField(max_length=255)
     num_tests = models.IntegerField(default = 1)
 
+    author = models.ForeignKey('Coder', null = True)
+
     def __unicode__(self):
         return self.code
 
@@ -45,17 +59,8 @@ class TestCase(models.Model):
     input_file = models.FileField(upload_to=in_upload_path)
     output_file = models.FileField(upload_to=out_upload_path)
 
-
-# Model for users
-class Coder(models.Model):
-    user = models.OneToOneField(User)
-    link = models.URLField()
-    score = models.DecimalField(default = 0, decimal_places = 3, max_digits = 100)
-    rank = models.IntegerField(default = -1)
-    problems_tried = models.ManyToManyField(Problem, related_name = "problems_tried")
-
     def __unicode__(self):
-        return self.user.username
+        return self.problem.code
 
 
 # Model for problem submissions

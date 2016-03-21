@@ -74,6 +74,7 @@ def add_problem(request):
                 # save a new problem
                 problem = problem_form.save()
                 problem.link = "/judge/problems/%s" % (problem.code)
+                problem.author = Coder.objects.get(user = request.user)
                 problem.save()
                 # link the added test case to the problem and save the test case to db
                 test.problem = problem
