@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from judge.models import Problem, Submission, Coder, TestCase
-from judge.forms import UserForm
+from judge.forms import UserForm, ProblemForm
 
 
 def index(request):
@@ -58,4 +58,29 @@ def loguserout(request):
     if request.user.is_authenticated:
         logout(request)
     return HttpResponseRedirect("/judge/")
+
+
+def add_problem(request):
+    # if user is not logged in, throw him to a sign-in page
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect("/judge/login/")
+    else:
+        if request.method == 'POST':
+            problem_form = ProblemForm(request.POST, request.FILES)
+            if problem_form.is_valid():
+                # Create a test case from the input and out files of the form
+                test = TestCase(input_file = request.FILES['input1'],
+                                output_file = request.FILES['output1'])
+                # save a new problem
+                problem = problem_form.save()
+                problem.link = "/judge/problems/%s" % (problem.code)
+                problem.save()
+                # link the added test case to the problem and save the test case to db
+                test.problem = problem
+                test.save()
+                return HttpResponseRedirect("/judge/")
+        else:
+            # instantiate a new ProblemForm and then render the addproblem page
+            problem_form = ProblemForm()
+            return render(request, "judge/addproblem.html", {"problem_form": problem_form})
 

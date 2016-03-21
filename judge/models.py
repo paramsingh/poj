@@ -33,7 +33,7 @@ class Problem(models.Model):
     date_added = models.DateTimeField(auto_now_add = True) # When added
     time_limit = models.IntegerField(default=1000)         # Time Limit
     source = models.CharField(max_length=255)
-    num_tests = models.IntegerField(default = 0)
+    num_tests = models.IntegerField(default = 1)
 
     def __unicode__(self):
         return self.code

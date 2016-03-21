@@ -1,0 +1,15 @@
+{% extends 'judge/base.html' %}
+
+{% block title %} Add a problem {% endblock %}
+
+{% block body_block %}
+
+    <h1> Add a problem </h1>
+    <form id="add_problem_form" method="post" action="/judge/add-problem/"
+        enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ problem_form.as_p }}
+
+        <input type="submit" name="submit" value = "add problem" />
+    </form>
+{% endblock %}
