@@ -37,15 +37,17 @@ def register_user(request):
 
 
 def loguserin(request):
+    # if form has been filled and sent by the user
     if request.method == 'POST':
+        # get the username and password
         username = request.POST.get('username')
         password = request.POST.get('password')
-
+        # authenticate the user using django's in built authenticate function
         user = authenticate(username=username, password=password)
-        if user:
+        if user: # if the user exists log her in and redirect back to home page
             login(request, user)
             return HttpResponseRedirect('/judge/')
-        else:
+        else: # otherwise redirect to a page showing an error
             print "Invalid login details: {}, {}".format(username, password)
             return HttpResponse("Invalid Login Details")
     else:
