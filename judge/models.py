@@ -79,8 +79,8 @@ class Submission(models.Model):
                 ("TS", "Tested"),
                 )
     RESULTS = STATUSES + (("AC", "Accepted"), ("FA", "Failed"))
-    submitter = models.ForeignKey(Coder)
-    problem = models.ForeignKey(Problem, default = None)
+    submitter = models.ForeignKey(Coder, null = True)
+    problem = models.ForeignKey(Problem, default = None, null = True)
     status = models.CharField(max_length = 2, default = "NT", choices = STATUSES)
     lang = models.CharField(max_length = 4, default = "C", choices = LANGUAGES)
     code = models.TextField(default="")
@@ -88,8 +88,8 @@ class Submission(models.Model):
     unevaluated = models.OneToOneField('UnevaluatedSubmission', on_delete=models.CASCADE, null = True)
 
 class UnevaluatedSubmission(models.Model):
-    submitter = models.ForeignKey('Coder')
-    problem = models.ForeignKey('Problem')
+    submitter = models.ForeignKey('Coder', null = True)
+    problem = models.ForeignKey('Problem', null = True)
     lang = models.CharField(max_length = 4, default = "C", choices = LANGUAGES)
     code = models.TextField(default = "")
     created = models.DateTimeField(auto_now_add=True)

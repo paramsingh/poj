@@ -1,5 +1,5 @@
 from django import forms
-from judge.models import Coder, Problem, TestCase
+from judge.models import Coder, Problem, TestCase, Submission
 from django.contrib.auth.models import User
 
 class UserForm(forms.ModelForm):
@@ -21,3 +21,12 @@ class ProblemForm(forms.ModelForm):
         model = Problem
         fields = ['name', 'code', 'statement', 'time_limit', 'source', 'input1', 'output1']
 
+
+class SubmissionForm(forms.ModelForm):
+    langs = [("C", "C"),  ("CPP", "C++"), ("JAVA", "Java"), ("PYTH", "python"), ("PYTH3", "python 3")]
+    lang = forms.ChoiceField(choices = langs)
+    code = forms.CharField(widget = forms.Textarea)
+
+    class Meta:
+        model = Submission
+        fields = ['lang', 'code']

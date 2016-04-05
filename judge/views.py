@@ -3,7 +3,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from judge.models import Problem, Submission, Coder, TestCase
-from judge.forms import UserForm, ProblemForm
+from judge.models import UnevaluatedSubmission
+from judge.forms import UserForm, ProblemForm, SubmissionForm
 
 
 def index(request):
@@ -91,4 +92,29 @@ def view_problem(request, pid):
 def all_problems(request):
     problems = Problem.objects.all()
     return render(request, "judge/all.html", {"problems":problems})
+
+def submit(request, pid):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/judge/login/')
+    else:
+        if request.method == 'POST':
+            sub_form = SubmissionForm(request.POST)
+            if sub_form.is_valid():
+                sub = sub_form.save()
+                sub.problem = Problem.objects.get(code = pid)
+                sub.submitter = Coder.objects.get(user = request.user)
+                sub.save()
+                uneval_sub = UnevaluatedSubmission(submitter = sub.submitter,
+                                                   problem = sub.problem,
+                                                   code = sub.code,
+                                                   lang = sub.lang)
+                uneval_sub.save()
+                sub.unevaluated = uneval_sub
+                sub.save()
+                return HttpResponseRedirect('/judge/')
+        else:
+            sub_form = SubmissionForm()
+            payload = {"sub_form":sub_form, "pid":pid}
+            return render(request, "judge/submit.html", payload)
+
 

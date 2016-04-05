@@ -9,4 +9,5 @@ urlpatterns = [
         url(r'^add-problem/$', views.add_problem, name = "add_problem"),
         url(r'^problems/$', views.all_problems, name = "all_problems"),
         url(r'^problems/(?P<pid>[\w\-]+)$', views.view_problem, name="view"),
+        url(r'^submit/(?P<pid>[\w\-]+)$', views.submit, name="submit"),
 ]

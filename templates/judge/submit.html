@@ -1,0 +1,13 @@
+{% extends 'judge/base.html' %}
+
+{% block body_block %}
+    <h1> Submit </h1>
+
+    <form id="submit_form" method = "post" action = "/judge/submit/{{pid}}"
+        enctype = "multipart/form-data">
+        {% csrf_token %}
+        {{ sub_form.as_p }}
+        <input type = "submit" name = "submit" value = "submit">
+    </form>
+
+{% endblock %}
