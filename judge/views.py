@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
@@ -68,20 +68,27 @@ def add_problem(request):
         if request.method == 'POST':
             problem_form = ProblemForm(request.POST, request.FILES)
             if problem_form.is_valid():
-                # Create a test case from the input and out files of the form
-                test = TestCase(input_file = request.FILES['input1'],
-                                output_file = request.FILES['output1'])
                 # save a new problem
                 problem = problem_form.save()
                 problem.link = "/judge/problems/%s" % (problem.code)
                 problem.author = Coder.objects.get(user = request.user)
                 problem.save()
                 # link the added test case to the problem and save the test case to db
-                test.problem = problem
+                test = TestCase(problem = problem, input_file = request.FILES['input1'],
+                            output_file = request.FILES['output1'])
                 test.save()
                 return HttpResponseRedirect("/judge/")
         else:
             # instantiate a new ProblemForm and then render the addproblem page
             problem_form = ProblemForm()
             return render(request, "judge/addproblem.html", {"problem_form": problem_form})
+
+def view_problem(request, pid):
+    problem = get_object_or_404(Problem, code = pid)
+    payload = {"problem":problem}
+    return render(request, "judge/problem.html", payload)
+
+def all_problems(request):
+    problems = Problem.objects.all()
+    return render(request, "judge/all.html", {"problems":problems})
 

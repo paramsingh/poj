@@ -62,6 +62,14 @@ class TestCase(models.Model):
     def __unicode__(self):
         return self.problem.code
 
+LANGUAGES = (
+                ("C", "GNU C"),
+                ("CPP", "GNU C++"),
+                ("JAVA", "Java 1.7"),
+                ("PYTH", "Python 2.7"),
+                ("PYTH3", "Python 3")
+                )
+
 
 # Model for problem submissions
 class Submission(models.Model):
@@ -71,17 +79,19 @@ class Submission(models.Model):
                 ("TS", "Tested"),
                 )
     RESULTS = STATUSES + (("AC", "Accepted"), ("FA", "Failed"))
-    LANGUAGES = (
-                ("C", "GNU C"),
-                ("CPP", "GNU C++"),
-                ("JAVA", "Java 1.7"),
-                ("PYTH", "Python 2.7"),
-                ("PYTH3", "Python 3")
-                )
     submitter = models.ForeignKey(Coder)
     problem = models.ForeignKey(Problem, default = None)
     status = models.CharField(max_length = 2, default = "NT", choices = STATUSES)
     lang = models.CharField(max_length = 4, default = "C", choices = LANGUAGES)
     code = models.TextField(default="")
     created = models.DateTimeField(auto_now_add=True)
+    unevaluated = models.OneToOneField('UnevaluatedSubmission', on_delete=models.CASCADE, null = True)
+
+class UnevaluatedSubmission(models.Model):
+    submitter = models.ForeignKey('Coder')
+    problem = models.ForeignKey('Problem')
+    lang = models.CharField(max_length = 4, default = "C", choices = LANGUAGES)
+    code = models.TextField(default = "")
+    created = models.DateTimeField(auto_now_add=True)
+
 

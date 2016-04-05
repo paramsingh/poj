@@ -7,4 +7,6 @@ urlpatterns = [
         url(r'^logout/$', views.loguserout, name = 'loguserout'),
         url(r'^login/$', views.loguserin, name = 'loguserin'),
         url(r'^add-problem/$', views.add_problem, name = "add_problem"),
+        url(r'^problems/$', views.all_problems, name = "all_problems"),
+        url(r'^problems/(?P<pid>[\w\-]+)$', views.view_problem, name="view"),
 ]

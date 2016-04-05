@@ -1,0 +1,7 @@
+{% extends 'judge/base.html' %}
+
+{% block body_block %}
+    {% for p in problems %}
+        <a href="{{p.link}}">{{p.name}}</a> <br>
+    {% endfor %}
+{% endblock %}
