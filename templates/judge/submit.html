@@ -1,13 +1,34 @@
 {% extends 'judge/base.html' %}
 
 {% block body_block %}
+<div style="position: relative;top: 100px">
+
     <h1> Submit </h1>
 
     <form id="submit_form" method = "post" action = "/judge/submit/{{pid}}"
         enctype = "multipart/form-data">
         {% csrf_token %}
         {{ sub_form.as_p }}
-        <input type = "submit" name = "submit" value = "submit">
+       <div style="position: relative;left: 40px">
+               <input type = "submit" name = "submit" value = "submit" class="ui button teal">
+    	</div>
     </form>
 
+
 {% endblock %}
+
+
+
+ <form id="submit_form" method = "post" action = "/judge/submit/TEST"
+        enctype = "multipart/form-data">
+        <p><label for="id_lang">Lang:</label> <select id="id_lang" name="lang">
+<option value="C">C</option>
+<option value="CPP">C++</option>
+<option value="JAVA">Java</option>
+<option value="PYTH">python</option>
+<option value="PYTH3">python 3</option>
+</select></p>
+<p><label for="id_code">Code:</label> <textarea cols="40" id="id_code" name="code" rows="10">
+</textarea></p>
+        <input type = "submit" name = "submit" value = "submit">
+    </form>

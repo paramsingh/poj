@@ -5,28 +5,80 @@
 <html>
     <head>
         <title> POJ - {% block title %} {% endblock %} </title>
-        <link rel="stylesheet" type="text/css" href="{% static "css/base.css" %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static "semantic/semantic.min.css" %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static "semantic/semantic.css" %}"/>
+        <script src="{% static "js/jquery-1.11.0.min.js" %}"></script>
+        <script src="{% static "semantic/semantic.min.js" %}"></script>
         <script src = "{% static "semantic/semantic.js" %}"> </script>
     </head>
-
-    <body>
+<body>
+<div>
+<div class="ui secondary pointing menu">
+  <a href='/judge' class="active item">
+    Home
+  </a>
+  <a class="item" href="/judge/problems"> 
+    Problems
+  </a>
+  <a class="item" href="/judge/about">
+    About
+  </a>
+  {%if user.is_authenticated%}
+    <a class="item" href="/judge/add-problem">
+    Add Problem
+    </a>
+  {%endif%}
+  {%block submit%} {%endblock%}
+  <div class="right menu">
+    
+    {%if user.is_authenticated%}
+    <a href='/judge/logout'class="ui item">
+      Logout
+    </a>
+    {% else %}
+    <a href='/judge/login' class="ui item">
+      Login Or Register
+    </a>
+    {% endif %}
+ 
+  </div>
+</div>
+</div>
+<div class="ui internally grid">
+  <div class="row">
+    <div class="three wide column">
+      <img>
+    </div>
+    <div class="ten wide column">
+   
         <div>
             {% block body_block %} {% endblock %}
         </div>
 
-        <hr />
+    
 
-        <div>
-            <ul>
-                {% if user.is_authenticated %}
-                    <li> <a href = "/judge/logout/">Log Out</a> </li>
-                    <li> <a href = "/judge/add-problem/">Add a Problem</a> </li>
-                {% else %}
-                    <li> <a href = "/judge/register/">Register!</a> </li>
-                    <li> <a href = "/judge/login/">Login</a> </li>
-                {% endif %}
-                    <li> <a href = "/judge/about/">About</a> </li>
-            </ul>
-        </div>
-    </body>
+    </div>
+    <div class="three wide column">
+      <img>
+    </div>
+  </div>
+  <div class="row">
+    <div class="three wide column">
+      <img>
+    </div>
+    <div class="ten wide column" style="position: relative;top: 300px">
+    
+       
+   
+    </div>
+    <div class="three wide column">
+      <img>
+    </div>
+  </div>
+</div>
+
+
+ </body>
+
+
 </html>

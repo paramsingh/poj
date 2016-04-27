@@ -4,13 +4,48 @@
 
 {% block body_block %}
 
-    <h1> Login to POJ </h1>
+  
 
+
+
+
+    
+<div style="position: relative;top:100px;">
+    <div class="ui two column middle aligned very relaxed stackable grid" >
+  <div class="column">
+    <div class="ui form">
     <form id = "login_form" method = "post" action = "/judge/login/">
-        {% csrf_token %}
-        Username: <input type = "text" name = "username" />
-        Password: <input type = "password" name = "password" />
-        <input type = "submit" value = "submit" />
-    </form>
+      {% csrf_token %}
+      <div class="field">
+        <label>Username</label>
+        <div class="ui left icon input">
+          <input placeholder="Username" type="text" name="username">
+          <i class="user icon"></i>
+        </div></div>
+      <div class="field">
+        <label>Password</label>
+        <div class="ui left icon input">
+          <input type="password" name="password" >
+          <i class="lock icon"></i>
+        </div>
+      </div>
+      <input type="submit" class="ui blue submit button" value="Login" >
+           </form>
+          </div>
+         
+  </div>
+ 
+
+  <div class="ui vertical divider">
+    Or
+  </div>
+  <div class="center aligned column">
+    <button onclick="window.location.href='/judge/register'" class="ui big green labeled icon button">
+      <i class="signup icon"></i>
+      Sign Up
+    </button>
+  </div>
+
+</div>
 
 {% endblock %}

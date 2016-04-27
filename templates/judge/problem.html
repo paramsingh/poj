@@ -1,6 +1,17 @@
 {% extends 'judge/base.html' %}
 
 {% block body_block %}
+<div style="position: relative;top: 100px">
+<div>
     <h1> {{ problem.name}} </h1>
+    <br/><br/>
     {{ problem.statement }}
+ </div>
+</div>
 {% endblock %}
+
+{% block submit %}
+	<a class = "item" href="/judge/submit/{{problem.code}}">
+		Submit Solution
+	</a>
+{%endblock%}
