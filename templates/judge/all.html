@@ -4,11 +4,11 @@
 <div class="ui middle aligned animated list" style="position: relative;top: 100px">
 {% for p in problems %}
   <div class="item">
-    <i class="terminal icon large" ></i>
+    <i class="rocket icon large" ></i>
     <div class="content">
       <div class="header">
       <p style="font-size: 23px">
-      	<a href="{{p.link}}">{{p.name}}</a>
+      	{{p.id}}. <a href="{{p.link}}">{{p.name}}</a>
       </p> 
       </div>
     </div>
