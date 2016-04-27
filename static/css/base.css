@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'caviar';
+    src = url('../fonts/CaviarDreams.ttf');
+}
+
+
+a {
+    font: caviar;
+}
