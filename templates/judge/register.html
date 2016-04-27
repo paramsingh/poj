@@ -3,22 +3,40 @@
 {% block title %} Register {% endblock %}
 
 {% block body_block %}
-
+<div style="position: relative;top: 100px;left: 250px">
     <h1> Register with POJ! </h1>
 
         {% if registered %}
             Thank you for registering!
         {% else %}
-            <strong> Register here </strong>
-
-            <form id="coder_form" method="post" action="/judge/register/"
+        <form id="coder_form" method="post" action="/judge/register/"
                 enctype = "multipart/form-data">
-                {% csrf_token %}
+ {% csrf_token %}
+<h4> Username </h4>
+<div class="ui icon input">
+    <div class="field">
+  <input id="id_username" maxlength="30" name="username" type="text" />
+  </div>
+</div>
 
-                {{ user_form.as_p }}
 
-                <input type="submit" name="submit" value="register with poj" />
-            </form>
+
+<h5>Password</h5>
+
+<div class="ui  icon input">
+    <div class="field">
+      <input id="id_password" name="password" type="password" />
+    </div>
+    </div>
+    <div style="position: relative;top: 20px; left: 40px">
+       <input type="submit" name="submit" value="register with poj" class="ui blue submit button" />
+
+    </div>
+</form>
+    </div>        
         {% endif %}
 {% endblock %}
 
+
+
+    
