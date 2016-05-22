@@ -1,2 +1,9 @@
 *.pyc
 testcases/*
+bin/*
+submissions/*
+db.sqlite3
+bin
+lib/
+pojenv/
+include/

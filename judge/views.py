@@ -3,8 +3,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from judge.models import Problem, Submission, Coder, TestCase
-from judge.models import UnevaluatedSubmission
 from judge.forms import UserForm, ProblemForm, SubmissionForm
+from judge.tasks import evaluate_submission
 
 
 def index(request):
@@ -31,7 +31,7 @@ def register_user(request):
             coder.save()
             registered = True
         else:
-            print user_form.errors
+            print(user_form.errors)
     else:
         user_form = UserForm()
     return render(request, "judge/register.html", {"user_form": user_form, "registered": registered})
@@ -49,7 +49,7 @@ def loguserin(request):
             login(request, user)
             return HttpResponseRedirect('/judge/')
         else: # otherwise redirect to a page showing an error
-            print "Invalid login details: {}, {}".format(username, password)
+            print("Invalid login details: {}, {}".format(username, password))
             return HttpResponse("Invalid Login Details")
     else:
         return render(request, "judge/login.html", {})
@@ -102,19 +102,21 @@ def submit(request, pid):
             if sub_form.is_valid():
                 sub = sub_form.save()
                 sub.problem = Problem.objects.get(code = pid)
+                print(sub.problem.code)
                 sub.submitter = Coder.objects.get(user = request.user)
+                print(sub.submitter)
                 sub.save()
-                uneval_sub = UnevaluatedSubmission(submitter = sub.submitter,
-                                                   problem = sub.problem,
-                                                   code = sub.code,
-                                                   lang = sub.lang)
-                uneval_sub.save()
-                sub.unevaluated = uneval_sub
-                sub.save()
-                return HttpResponseRedirect('/judge/')
+                evaluate_submission.delay(sub.id)
+                return HttpResponseRedirect('/judge/submission/{}'.format(sub.id))
         else:
             sub_form = SubmissionForm()
             payload = {"sub_form":sub_form, "pid":pid}
             return render(request, "judge/submit.html", payload)
 
+def view_submission(request, submission_id):
+    required_sub = get_object_or_404(Submission, id = int(submission_id))
+    if not required_sub.private or (required_sub.private and required_sub.submitter.user.username == request.user.username):
+        return render(request, "judge/submission.html", {"submission": required_sub})
+    else:
+        return HttpResponseRedirect('/judge/')
 

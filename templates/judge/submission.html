@@ -1,0 +1,14 @@
+{% extends "judge/base.html" %}
+
+{% block body_block %}
+
+	{{submission.submitter.user.username}}
+	<br/>
+	{{submission.status}}
+	<br/>
+	{{submission.lang}}
+	<br/>
+	{{submission.code}}
+	<br/>
+
+{% endblock %}

@@ -19,7 +19,8 @@ class Coder(models.Model):
     link = models.URLField()
     score = models.DecimalField(default = 0, decimal_places = 3, max_digits = 100)
     rank = models.IntegerField(default = -1)
-    problems_tried = models.ManyToManyField('Problem', related_name = "problems_tried")
+    problems_tried = models.ForeignKey('Problem', null = True, related_name = "problems_tried")
+    problems_ac = models.ForeignKey('Problem', null = True, related_name = "problems_ac")
 
     def __unicode__(self):
         return self.user.username
@@ -37,13 +38,13 @@ class Problem(models.Model):
     statement = models.TextField()
 
     num_submissions = models.IntegerField(default = 0) # number of submissions
-    num_accepted= models.IntegerField(default = 0)     # number of accepted submissions
+    num_ac = models.IntegerField(default = 0)     # number of accepted submissions
     num_wa = models.IntegerField(default = 0)          # number of wrong answers
     num_re = models.IntegerField(default = 0)          # number of runtime errors
     num_tle = models.IntegerField(default = 0)         # number of tles
-
+    num_ce = models.IntegerField(default = 0)
     date_added = models.DateTimeField(auto_now_add = True) # When added
-    time_limit = models.IntegerField(default=1000)         # Time Limit
+    time_limit = models.IntegerField(default=1)         # Time Limit
     source = models.CharField(max_length=255)
     num_tests = models.IntegerField(default = 1)
 
@@ -65,9 +66,6 @@ class TestCase(models.Model):
 LANGUAGES = (
                 ("C", "GNU C"),
                 ("CPP", "GNU C++"),
-                ("JAVA", "Java 1.7"),
-                ("PYTH", "Python 2.7"),
-                ("PYTH3", "Python 3")
                 )
 
 
@@ -76,22 +74,14 @@ class Submission(models.Model):
     STATUSES = (
                 ("NT", "Not tested"),
                 ("CE", "Compile Error"),
-                ("TS", "Tested"),
+                ("TL", "Time Limit Exceeded"),
+                ("RE", "Runtime Error"),
+                ("AC", "Accepted")
                 )
-    RESULTS = STATUSES + (("AC", "Accepted"), ("FA", "Failed"))
     submitter = models.ForeignKey(Coder, null = True)
     problem = models.ForeignKey(Problem, default = None, null = True)
     status = models.CharField(max_length = 2, default = "NT", choices = STATUSES)
     lang = models.CharField(max_length = 4, default = "C", choices = LANGUAGES)
     code = models.TextField(default="")
     created = models.DateTimeField(auto_now_add=True)
-    unevaluated = models.OneToOneField('UnevaluatedSubmission', on_delete=models.CASCADE, null = True)
-
-class UnevaluatedSubmission(models.Model):
-    submitter = models.ForeignKey('Coder', null = True)
-    problem = models.ForeignKey('Problem', null = True)
-    lang = models.CharField(max_length = 4, default = "C", choices = LANGUAGES)
-    code = models.TextField(default = "")
-    created = models.DateTimeField(auto_now_add=True)
-
-
+    private = models.BooleanField(default = True)

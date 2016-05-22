@@ -5,16 +5,13 @@
 
     <h1> Submit a Solution!</h1>
 
-   <form id="submit_form" method = "post" action = "/judge/submit/TEST" class="ui fluid form" 
+   <form id="submit_form" method = "post" action = "/judge/submit/{{pid}}" class="ui fluid form" 
         enctype = "multipart/form-data">
         {% csrf_token %}
         <p><label class="ui right pointing label basic blue">Language:</label>
         <select id="id_lang" name="lang" class="ui dropdown" >
 			<option value="C">C</option>
 			<option value="CPP">C++</option>
-			<option value="JAVA">Java</option>
-			<option value="PYTH">python</option>
-			<option value="PYTH3">python 3</option>
 		</select></p>
 <p><label for="id_code">Code:</label> <textarea cols="40" id="id_code" name="code" rows="10">
 </textarea></p>
