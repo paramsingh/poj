@@ -8,6 +8,7 @@ urlpatterns = [
         url(r'^login/$', views.loguserin, name = 'loguserin'),
         url(r'^add-problem/$', views.add_problem, name = "add_problem"),
         url(r'^problems/$', views.all_problems, name = "all_problems"),
-        url(r'^problems/(?P<pid>[\w\-]+)$', views.view_problem, name="view"),
+        url(r'^problems/(?P<pid>[\w\-]+)$', views.view_problem, name="view_prob"),
         url(r'^submit/(?P<pid>[\w\-]+)$', views.submit, name="submit"),
+        url(r'^submission/(?P<submission_id>[\d]+)$', views.view_submission, name="view_sub"),
 ]
