@@ -2,6 +2,7 @@
 testcases/*
 bin/*
 submissions/*
+outputs/*
 db.sqlite3
 bin
 lib/
