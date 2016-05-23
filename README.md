@@ -39,4 +39,3 @@ Run the development server, the redis server, the celery worker and scheduler, e
     celery -A poj beat -l info
 
 The site should be accessible at `localhost:8000/judge`
-

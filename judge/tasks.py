@@ -95,7 +95,6 @@ def evaluate_submission(sub_id):
             submission.save()
             cur_problem.num_tle += 1
             cur_problem.save()
-            print('HI')
         elif run_code != 0:
             # run time error
             print("run time error")

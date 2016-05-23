@@ -1,7 +1,6 @@
 import sys
 import subprocess
 
-
 if __name__ == "__main__":
     try:
         executable = sys.argv[1]
@@ -17,5 +16,3 @@ if __name__ == "__main__":
     print(returncode)
     input_file.close()
     output_file.close()
-
-
