@@ -2,6 +2,15 @@
 
 POJ is an online judge. I couldn't think of a better name.
 
+It is written in Python3 and Django. It uses Docker and Celery for submission
+evaluation. Docker makes sure each submission is run in a seperate container,
+while Celery makes it all asynchronous. The message broker we're using for
+Celery here is redis.
+
+The front-end uses Semantic UI.
+
+Any pull requests would be welcome!
+
 ## Setup
 
 Clone the repository
@@ -25,17 +34,18 @@ Install docker for your distribution and create an image named 'poj' using the d
 
 Create a new database.
 
-    python manage.py migrate
+    python3 manage.py migrate
 
 Create an admin user
 
-    python manage.py createsuperuser
+    python3 manage.py createsuperuser
 
 Run the development server, the redis server, the celery worker and scheduler, each in a different terminal.
 
-    python manage.py runserver
+    python3 manage.py runserver
     redis-server
     celery -A poj worker -l info
     celery -A poj beat -l info
 
-The site should be accessible at `localhost:8000/judge`
+The site should be accessible at `localhost:8000/judge`.
+
